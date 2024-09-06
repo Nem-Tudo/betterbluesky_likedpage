@@ -11,7 +11,7 @@ body {
   max-width: 40rem;
   margin: 0 auto;
   padding: 16px;
-  background: #d9d9fb;
+  background: #000000;
   color: #112;
 }
 
@@ -35,11 +35,16 @@ body {
   margin-top: 16px;
 }
 
+.form-field summary{
+  color: white;
+}
+
 .form-field label {
   display: block;
   font-size: 15px;
   opacity: 0.75;
   margin-bottom: 4px;
+  color: white;
 }
 
 .form-field input {
@@ -51,6 +56,8 @@ body {
   margin: 0;
   padding: 14px 12px;
   transition: 0.1s box-shadow;
+  color: rgb(255, 255, 255);
+  background-color: rgb(66, 66, 66);
 }
 
 .form-field input:focus {
@@ -65,13 +72,14 @@ body {
   border-radius: 8px;
   font: inherit;
   font-weight: bold;
-  background-image: linear-gradient(to bottom, #75e, #42c);
+  background: #FF9325;
   color: white;
   margin: 0;
   padding: 14px 12px;
   transition: ease 0.1s box-shadow;
   cursor: pointer;
   overflow: hidden;
+  transition: 0.2s all ease;
 }
 
 .form-field button::before {
@@ -86,15 +94,7 @@ body {
   pointer-events: none;
 }
 
-.form-field button:hover::before {
-  background-color: #fff2;
-}
+.form-field button:hover{
+  background: rgb(218, 126, 35);
 
-.form-field button:active::before {
-  background-color: #0002;
-}
-
-.form-field button:focus {
-  outline: none;
-  box-shadow: 0 0 0 1px white, 0 0 0 3px #44d;
 }

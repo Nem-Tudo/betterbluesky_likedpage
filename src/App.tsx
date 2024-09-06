@@ -9,18 +9,31 @@ import './App.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(false)
-  const [profileHandle, setProfileHandle] = useState('')
+  const [profileHandle, setProfileHandle] = useState("") //deixe incialmente com o valor da query defaultHandle no link, caso houver
   const [service, setService] = useState(DEFAULT_SERVICE)
   const [error, setError] = useState(null)
   const [likes, setLikes] = useState<Like[]>([])
   const [cursor, setCursor] = useState<string | undefined>(undefined)
 
-  const load = (cursor?: string) => {
+  useEffect(() => {
+    // Capturar o valor de 'defaultHandle' da query string
+    const params = new URLSearchParams(window.location.search)
+    const defaultHandle = params.get('defaultHandle')
+    if (defaultHandle) {
+      setProfileHandle(defaultHandle)
+      setIsLoading(true)
+      load(undefined, defaultHandle).then(() => {
+        setIsLoading(false)
+      })
+    }
+  }, [])
+
+  const load = (cursor?: string, defaultHandle?: string) => {
     setError(null)
 
     return fetchLikedPosts({
       service,
-      handle: profileHandle.toLowerCase().replace(/^@/, ''),
+      handle: defaultHandle || profileHandle.toLowerCase().replace(/^@/, ''),
       cursor,
     })
       .then(({ likes: newLikes, cursor: newCursor }) => {
@@ -74,20 +87,30 @@ function App() {
   return (
     <>
       <header className="App__header">
-        <h1 className="App__heading">Show my likes! ❤️</h1>
+        <h1 className="App__heading">Curtidas do usuário <span className='App__BETA'>BETA</span></h1>
 
         <p className="App__subtitle">
-          Enter your handle and get a list of the profile's liked posts
+          Veja a lista de curtidas de qualquer usuário!
         </p>
 
         <p className="App__credits">
-          made by{' '}
+          Feito por{' '}
           <a href={`${WEB_APP}/profile/did:plc:uowmeg4dqtanpmjuknadqjqc`}>
             @handlerug.bsky.social
           </a>
           {' • '}
-          <a href="https://github.com/handlerug/bluesky-liked-posts">
-            source code
+          <a href="https://handlerug.github.io/bluesky-liked-posts/">
+            Projeto Original
+          </a>
+        </p>
+        <p className="App__credits">
+          Modificado por {' '}
+          <a href={`https://nemtudo.me/betterbluesky`} style={{color: "#FF9325"}}>
+            BetterBluesky
+          </a>
+          {' by '}
+          <a href="https://bsky.social/profile/nemtudo.me">
+            @nemtudo.me
           </a>
         </p>
       </header>
@@ -95,7 +118,7 @@ function App() {
       <main>
         <form onSubmit={onSubmit}>
           <div className="form-field">
-            <label htmlFor="profile-handle">Your profile handle</label>
+            <label htmlFor="profile-handle">Usuário</label>
             <input
               id="profile-handle"
               type="text"
@@ -108,7 +131,7 @@ function App() {
 
           <div className="form-field">
             <details>
-              <summary>Advanced settings</summary>
+              <summary>Configurações avançadas</summary>
 
               <label htmlFor="service-url">ATProto service URL</label>
               <input
@@ -123,7 +146,7 @@ function App() {
           </div>
 
           <div className="form-field">
-            <button type="submit">Load likes!</button>
+            <button type="submit">Ver curtidas</button>
           </div>
         </form>
 
