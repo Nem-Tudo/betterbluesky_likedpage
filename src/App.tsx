@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import Post from './components/Post'
 import FriendlyError from './components/FriendlyError'
