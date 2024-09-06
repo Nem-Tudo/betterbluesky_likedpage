@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import Post from './components/Post'
 import FriendlyError from './components/FriendlyError'
@@ -9,7 +9,7 @@ import './App.css'
 
 function App() {
   const [isLoading, setIsLoading] = useState(false)
-  const [profileHandle, setProfileHandle] = useState("") //deixe incialmente com o valor da query defaultHandle no link, caso houver
+  const [profileHandle, setProfileHandle] = useState("")
   const [service, setService] = useState(DEFAULT_SERVICE)
   const [error, setError] = useState(null)
   const [likes, setLikes] = useState<Like[]>([])
