@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import Post from './components/Post'
 import FriendlyError from './components/FriendlyError'
@@ -8,8 +8,16 @@ import { DEFAULT_SERVICE, WEB_APP } from './utils/constants'
 import './App.css'
 
 function App() {
+  const initialProfileHandle = useMemo(() => {
+    let searchParams = new URLSearchParams(location.search)
+    if (searchParams.has('defaultUser')) {
+      return searchParams.get('defaultUser')!
+    }
+    return ''
+  }, [])
+
   const [isLoading, setIsLoading] = useState(false)
-  const [profileHandle, setProfileHandle] = useState('')
+  const [profileHandle, setProfileHandle] = useState(initialProfileHandle)
   const [service, setService] = useState(DEFAULT_SERVICE)
   const [error, setError] = useState(null)
   const [likes, setLikes] = useState<Like[]>([])
